@@ -14,4 +14,12 @@ public class EmployeeService {
     public List<Employee> getEmployees() {
         return employeeList;
     }
+
+    public Employee getEmployee(int employeeId) {
+        for(int i = 0; i < employeeList.size(); i++){
+            if(employeeList.get(i).getEmployeeId() == employeeId)
+                return employeeList.get(i);
+        }
+        return null;
+    }
 }
