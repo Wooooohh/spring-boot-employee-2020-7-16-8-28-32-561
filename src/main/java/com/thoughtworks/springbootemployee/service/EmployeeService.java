@@ -22,4 +22,14 @@ public class EmployeeService {
         }
         return null;
     }
+
+    public List<Employee> getEmployeesByPage(int page, int pageSize) {
+        List<Employee> employees = new ArrayList<>();
+        int start = (page-1)*pageSize;
+        int end = page*pageSize;
+        for (int i = start; i <end ; i++) {
+            employees.add(employeeList.get(i));
+        }
+        return employees;
+    }
 }

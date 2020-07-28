@@ -23,5 +23,12 @@ public class EmployeeController {
     public Employee getEmployee(@PathVariable("employeeId") int employeeId){
         return employeeService.getEmployee(employeeId);
     }
+    //GET       /
+    @GetMapping("employees")
+    public List<Employee> getEmployeesByPage(@RequestParam("page")int page,@RequestParam("pageSize") int pageSize){
+        return employeeService.getEmployeesByPage(page,pageSize);
+    }
+
+
 
 }
