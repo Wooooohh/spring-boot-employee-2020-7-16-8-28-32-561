@@ -32,4 +32,13 @@ public class EmployeeService {
         }
         return employees;
     }
+
+    public List<Employee> getEmployeesByGender(String gender) {
+        List<Employee> employees = new ArrayList<>();
+        for(int i = 0; i < employeeList.size(); i++){
+            if(employeeList.get(i).getGender().equals(gender))
+                employees.add(employeeList.get(i));
+        }
+        return employees;
+    }
 }

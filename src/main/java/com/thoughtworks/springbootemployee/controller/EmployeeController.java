@@ -23,12 +23,15 @@ public class EmployeeController {
     public Employee getEmployee(@PathVariable("employeeId") int employeeId){
         return employeeService.getEmployee(employeeId);
     }
-    //GET       /
-    @GetMapping("employees")
+
+    @GetMapping("/employees")
     public List<Employee> getEmployeesByPage(@RequestParam("page")int page,@RequestParam("pageSize") int pageSize){
         return employeeService.getEmployeesByPage(page,pageSize);
     }
 
-
+    @GetMapping("/employees")
+    public List<Employee> getEmployeesByGender(@RequestParam("gender") String gender){
+        return employeeService.getEmployeesByGender(gender);
+    }
 
 }

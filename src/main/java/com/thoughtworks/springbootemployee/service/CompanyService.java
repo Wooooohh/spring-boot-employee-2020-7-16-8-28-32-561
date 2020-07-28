@@ -56,10 +56,7 @@ public class CompanyService {
         }
     }
 
-    public void deleteCompany(int companyId) {
-        for (int i = 0; i < companyList.size(); i++) {
-            if (companyList.get(i).getCompanyId() == companyId)
-                companyList.remove(i);
-        }
+    public void deleteCompanyEmployees(int companyId) {
+        companyMap.remove(companyId);
     }
 }
