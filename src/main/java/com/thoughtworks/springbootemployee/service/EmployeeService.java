@@ -52,4 +52,10 @@ public class EmployeeService {
                 employeeList.set(i, employee);
         }
     }
+
+    public void deleteEmployee(int employeeId) {
+        for (int i = 0; i <employeeList.size() ; i++) {
+            if (employeeList.remove(employeeList.get(i)));
+        }
+    }
 }
