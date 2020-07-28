@@ -45,4 +45,11 @@ public class EmployeeService {
     public void addEmployee(Employee employee) {
         employeeList.add(employee);
     }
+
+    public void updateEmployee(int employeeId, Employee employee) {
+        for(int i = 0; i < employeeList.size(); i++){
+            if(employeeList.get(i).getEmployeeId() == employee.getEmployeeId())
+                employeeList.set(i, employee);
+        }
+    }
 }
