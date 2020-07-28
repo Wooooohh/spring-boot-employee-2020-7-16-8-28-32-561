@@ -47,4 +47,12 @@ public class CompanyService {
         }
         return null;
     }
+
+    public void updateCompany(int companyId,Company company) {
+        for (int i = 0; i <companyList.size() ; i++) {
+            if (companyList.get(i).getCompanyId() == companyId){
+                companyList.set(i,company);
+            }
+        }
+    }
 }
