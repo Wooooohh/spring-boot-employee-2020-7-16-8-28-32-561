@@ -40,19 +40,26 @@ public class CompanyService {
     }
 
     public Company getCompany(int companyId) {
-        for(Company company: companyList){
-            if(company.getCompanyId() == companyId){
+        for (Company company : companyList) {
+            if (company.getCompanyId() == companyId) {
                 return company;
             }
         }
         return null;
     }
 
-    public void updateCompany(int companyId,Company company) {
-        for (int i = 0; i <companyList.size() ; i++) {
-            if (companyList.get(i).getCompanyId() == companyId){
-                companyList.set(i,company);
+    public void updateCompany(int companyId, Company company) {
+        for (int i = 0; i < companyList.size(); i++) {
+            if (companyList.get(i).getCompanyId() == companyId) {
+                companyList.set(i, company);
             }
+        }
+    }
+
+    public void deleteCompany(int companyId) {
+        for (int i = 0; i < companyList.size(); i++) {
+            if (companyList.get(i).getCompanyId() == companyId)
+                companyList.remove(i);
         }
     }
 }
