@@ -28,4 +28,14 @@ public class CompanyService {
     public List<Employee> getEmployee(int id) {
         return companyMap.get(id);
     }
+
+    public List<Company> getCompaniesByPage(int page, int pageSize) {
+        List<Company> companies = new ArrayList<>();
+        int start = (page - 1) * pageSize;
+        int end = page * pageSize;
+        for (int i = start; i < end; i++) {
+            companies.add(companyList.get(i));
+        }
+        return companies;
+    }
 }

@@ -28,4 +28,15 @@ public class CompanyController {
     public List<Employee> getEmployeesFromCompanyId(@PathVariable("id") int id){
         return companyService.getEmployee(id);
     }
+
+
+    //GET       /companies?page=1&pageSize=5
+    @GetMapping("/companies?page=1&pageSize=5 ")
+    public List<Company> getCompaniesByPage(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+        return  companyService.getCompaniesByPage(page,pageSize);
+
+
+    }
+
+
 }
