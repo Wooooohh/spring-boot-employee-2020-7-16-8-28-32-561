@@ -41,4 +41,8 @@ public class EmployeeService {
         }
         return employees;
     }
+
+    public void addEmployee(Employee employee) {
+        employeeList.add(employee);
+    }
 }

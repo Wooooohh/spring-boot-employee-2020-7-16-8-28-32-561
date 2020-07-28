@@ -34,4 +34,9 @@ public class EmployeeController {
         return employeeService.getEmployeesByGender(gender);
     }
 
+    @PostMapping("/employees")
+    public void addEmployee(@RequestBody Employee employee){
+        employeeService.addEmployee(employee);
+    }
+
 }
