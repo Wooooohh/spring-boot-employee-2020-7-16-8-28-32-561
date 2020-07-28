@@ -15,4 +15,8 @@ public class CompanyService {
     public List<Company> getCompanies() {
         return companyList;
     }
+
+    public void addCompany(Company company) {
+        companyList.add(company);
+    }
 }
