@@ -15,8 +15,17 @@ import java.util.Map;
 public class CompanyService {
 
     List<Company> companyList = new ArrayList<>();
-
     Map<Integer, List<Employee>> companyMap = new HashMap<>();
+
+    {
+        List<Employee> lists = new ArrayList<>();
+        lists.add(new Employee(1,"female"));
+        lists.add(new Employee(2,"male"));
+        companyMap.put(1,lists);
+        System.out.println(companyMap.size());
+    }
+
+
 
     public CompanyService(){
     }
@@ -29,12 +38,6 @@ public class CompanyService {
     }
 
     public List<Employee> getEmployee(int companyId) {
-        List<Employee> lists = new ArrayList<>();
-        lists.add(new Employee(1,"female"));
-        lists.add(new Employee(2,"male"));
-        companyMap.put(1,lists);
-        System.out.println(companyMap.size());
-
         return companyMap.get(companyId);
     }
 
