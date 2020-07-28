@@ -4,6 +4,9 @@ public class Company {
 
     private int companyId;
 
+    public Company() {
+    }
+
     public Company(int companyId) {
         this.companyId = companyId;
     }

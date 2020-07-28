@@ -5,48 +5,48 @@ import com.thoughtworks.springbootemployee.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
-
-@RestController
+@RestController()
 public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
 
-    @GetMapping("/employees")
-    public List<Employee> getEmployees(){
-        return employeeService.getEmployees();
-    }
-
     @GetMapping("/employees/{employeeId}")
-    public Employee getEmployee(@PathVariable("employeeId") int employeeId){
+    public Employee getEmployee(@PathVariable("employeeId") int employeeId) {
         return employeeService.getEmployee(employeeId);
     }
 
     @GetMapping("/employees")
-    public List<Employee> getEmployeesByPage(@RequestParam("page")int page,@RequestParam("pageSize") int pageSize){
-        return employeeService.getEmployeesByPage(page,pageSize);
+    public List<Employee> getEmployees(
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "0") int pageSize,
+            @RequestParam(required = false, defaultValue = "") String gender) {
+        if(pageSize == 0){
+            if(!gender.equals("")){
+                return employeeService.getEmployeesByGender(gender);
+            }
+            return employeeService.getEmployees();
+        }
+        return employeeService.getEmployeesByPage(page, pageSize);
     }
 
-    @GetMapping("/employees")
-    public List<Employee> getEmployeesByGender(@RequestParam("gender") String gender){
-        return employeeService.getEmployeesByGender(gender);
-    }
 
     @PostMapping("/employees")
-    public void addEmployee(@RequestBody Employee employee){
+    public void addEmployee(@RequestBody Employee employee) {
         employeeService.addEmployee(employee);
     }
 
     @PutMapping("/employees/{employeeId}")
-    public void updateEmployee(@PathVariable("employeeId") int employeeId, @RequestBody Employee employee){
-        employeeService.updateEmployee(employeeId,employee);
+    public void updateEmployee(@PathVariable("employeeId") int employeeId, @RequestBody Employee employee) {
+        employeeService.updateEmployee(employeeId, employee);
     }
 
 
     @DeleteMapping("/employees/{employeeId}")
-    public void deleteEmployee(@RequestParam("employeeId")int employeeId){
+    public void deleteEmployee(@PathVariable("employeeId") int employeeId) {
         employeeService.deleteEmployee(employeeId);
     }
 

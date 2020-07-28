@@ -8,30 +8,28 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@RestController("companyController")
 public class CompanyController {
 
     @Autowired
     private CompanyService companyService;
-
-    @GetMapping("/companies")
-    public List<Company> getCompanies() {
-        return companyService.getCompanies();
-    }
 
     @GetMapping("/companies/{companyId}")
     public Company getCompany(@PathVariable("companyId") int companyId){
         return companyService.getCompany(companyId);
     }
 
-    @GetMapping("/companies/{id}/employees")
+    @GetMapping("/companies/{companyId}/employees")
     public List<Employee> getEmployeesFromCompanyId(@PathVariable("companyId") int companyId){
         return companyService.getEmployee(companyId);
     }
 
-    //GET       /companies?page=1&pageSize=5
-    @GetMapping("/companies?page=1&pageSize=5")
-    public List<Company> getCompaniesByPage(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+    @GetMapping("/companies")
+    public List<Company> getCompaniesByPage(
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "0") int pageSize){
+        if(pageSize == 0)
+            return companyService.getCompanies();
         return  companyService.getCompaniesByPage(page,pageSize);
     }
 
@@ -41,15 +39,12 @@ public class CompanyController {
     }
 
     @PutMapping("/companies/{companyId}")
-    public void updateCompany(@RequestParam("companyId") int companyId,@RequestBody Company company){
+    public void updateCompany(@PathVariable("companyId") int companyId,@RequestBody Company company){
          companyService.updateCompany(companyId,company);
     }
 
     @DeleteMapping("/companies/{companyId}")
-    public void deleteCompanyEmployees(@RequestParam("companyId") int companyId){
+    public void deleteCompanyEmployees(@PathVariable("companyId") int companyId){
         companyService.deleteCompanyEmployees(companyId);
     }
-
-
-
 }
