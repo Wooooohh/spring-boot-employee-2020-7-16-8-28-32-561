@@ -25,8 +25,8 @@ public class CompanyService {
         companyList.add(company);
     }
 
-    public List<Employee> getEmployee(int id) {
-        return companyMap.get(id);
+    public List<Employee> getEmployee(int companyId) {
+        return companyMap.get(companyId);
     }
 
     public List<Company> getCompaniesByPage(int page, int pageSize) {
@@ -37,5 +37,14 @@ public class CompanyService {
             companies.add(companyList.get(i));
         }
         return companies;
+    }
+
+    public Company getCompany(int companyId) {
+        for(Company company: companyList){
+            if(company.getCompanyId() == companyId){
+                return company;
+            }
+        }
+        return null;
     }
 }
