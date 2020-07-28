@@ -56,7 +56,9 @@ public class EmployeeService {
 
     public void deleteEmployee(int employeeId) {
         for (int i = 0; i <employeeList.size() ; i++) {
-            if (employeeList.remove(employeeList.get(i)));
+            if (employeeList.get(i).getEmployeeId() == employeeId){
+                employeeList.remove(i);
+            }
         }
     }
 }
