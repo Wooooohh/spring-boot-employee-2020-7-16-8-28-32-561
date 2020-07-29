@@ -5,7 +5,6 @@ import com.thoughtworks.springbootemployee.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController()
@@ -24,15 +23,14 @@ public class EmployeeController {
             @RequestParam(required = false, defaultValue = "0") int page,
             @RequestParam(required = false, defaultValue = "0") int pageSize,
             @RequestParam(required = false, defaultValue = "") String gender) {
-        if(pageSize == 0){
-            if(!gender.equals("")){
+        if (pageSize == 0) {
+            if (!gender.equals("")) {
                 return employeeService.getEmployeesByGender(gender);
             }
             return employeeService.getEmployees();
         }
         return employeeService.getEmployeesByPage(page, pageSize);
     }
-
 
     @PostMapping("/employees")
     public void addEmployee(@RequestBody Employee employee) {
@@ -43,7 +41,6 @@ public class EmployeeController {
     public void updateEmployee(@PathVariable("employeeId") int employeeId, @RequestBody Employee employee) {
         employeeService.updateEmployee(employeeId, employee);
     }
-
 
     @DeleteMapping("/employees/{employeeId}")
     public void deleteEmployee(@PathVariable("employeeId") int employeeId) {

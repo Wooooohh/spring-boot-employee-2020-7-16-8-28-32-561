@@ -16,8 +16,8 @@ public class EmployeeService {
     }
 
     public Employee getEmployee(int employeeId) {
-        for(int i = 0; i < employeeList.size(); i++){
-            if(employeeList.get(i).getEmployeeId() == employeeId)
+        for (int i = 0; i < employeeList.size(); i++) {
+            if (employeeList.get(i).getEmployeeId() == employeeId)
                 return employeeList.get(i);
         }
         return null;
@@ -25,9 +25,9 @@ public class EmployeeService {
 
     public List<Employee> getEmployeesByPage(int page, int pageSize) {
         List<Employee> employees = new ArrayList<>();
-        int start = (page-1)*pageSize;
-        int end = page*pageSize;
-        for (int i = start; i <end ; i++) {
+        int start = (page - 1) * pageSize;
+        int end = page * pageSize;
+        for (int i = start; i < end; i++) {
             employees.add(employeeList.get(i));
         }
         return employees;
@@ -35,8 +35,8 @@ public class EmployeeService {
 
     public List<Employee> getEmployeesByGender(String gender) {
         List<Employee> employees = new ArrayList<>();
-        for(int i = 0; i < employeeList.size(); i++){
-            if(employeeList.get(i).getGender().equals(gender))
+        for (int i = 0; i < employeeList.size(); i++) {
+            if (employeeList.get(i).getGender().equals(gender))
                 employees.add(employeeList.get(i));
         }
         return employees;
@@ -48,15 +48,15 @@ public class EmployeeService {
     }
 
     public void updateEmployee(int employeeId, Employee employee) {
-        for(int i = 0; i < employeeList.size(); i++){
-            if(employeeList.get(i).getEmployeeId() == employeeId)
+        for (int i = 0; i < employeeList.size(); i++) {
+            if (employeeList.get(i).getEmployeeId() == employeeId)
                 employeeList.set(i, employee);
         }
     }
 
     public void deleteEmployee(int employeeId) {
-        for (int i = 0; i <employeeList.size() ; i++) {
-            if (employeeList.get(i).getEmployeeId() == employeeId){
+        for (int i = 0; i < employeeList.size(); i++) {
+            if (employeeList.get(i).getEmployeeId() == employeeId) {
                 employeeList.remove(i);
             }
         }

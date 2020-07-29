@@ -1,7 +1,5 @@
 package com.thoughtworks.springbootemployee.service;
 
-
-import com.sun.javaws.IconUtil;
 import com.thoughtworks.springbootemployee.entity.Company;
 import com.thoughtworks.springbootemployee.entity.Employee;
 import org.springframework.stereotype.Service;
@@ -19,16 +17,14 @@ public class CompanyService {
 
     {
         List<Employee> lists = new ArrayList<>();
-        lists.add(new Employee(1,"female"));
-        lists.add(new Employee(2,"male"));
-        companyMap.put(1,lists);
-        System.out.println(companyMap.size());
+        lists.add(new Employee(1, "female"));
+        lists.add(new Employee(2, "male"));
+        companyMap.put(1, lists);
     }
 
-
-
-    public CompanyService(){
+    public CompanyService() {
     }
+
     public List<Company> getCompanies() {
         return companyList;
     }
@@ -70,8 +66,5 @@ public class CompanyService {
 
     public void deleteCompanyEmployees(int companyId) {
         companyMap.remove(companyId);
-
     }
-
-
 }
