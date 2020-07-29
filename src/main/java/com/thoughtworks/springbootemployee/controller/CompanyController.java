@@ -4,6 +4,9 @@ import com.thoughtworks.springbootemployee.entity.Company;
 import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,23 +17,14 @@ public class CompanyController {
     @Autowired
     private CompanyService companyService;
 
-    @GetMapping("/companies/{companyId}")
-    public Company getCompany(@PathVariable("companyId") int companyId) {
-        return companyService.getCompany(companyId);
-    }
-
     @GetMapping("/companies/{companyId}/employees")
-    public List<Employee> getEmployeesFromCompanyId(@PathVariable("companyId") int companyId) {
-        return companyService.getEmployee(companyId);
+    public List<Employee> getEmployeesByCompanyId(@PathVariable("companyId") int companyId) {
+        return companyService.getCompanyByCompanyId(companyId);
     }
 
     @GetMapping("/companies")
-    public List<Company> getCompaniesByPage(
-            @RequestParam(required = false, defaultValue = "0") int page,
-            @RequestParam(required = false, defaultValue = "0") int pageSize) {
-        if (pageSize == 0)
-            return companyService.getCompanies();
-        return companyService.getCompaniesByPage(page, pageSize);
+    public Page<Company> getCompaniesByPage(@PageableDefault(size = 2) Pageable pageable){
+        return (Page<Company>) companyService.getCompaniesByPage(pageable);
     }
 
     @PostMapping("/companies")
@@ -38,13 +32,13 @@ public class CompanyController {
         companyService.addCompany(company);
     }
 
-    @PutMapping("/companies/{companyId}")
-    public void updateCompany(@PathVariable("companyId") int companyId, @RequestBody Company company) {
-        companyService.updateCompany(companyId, company);
-    }
-
-    @DeleteMapping("/companies/{companyId}")
-    public void deleteCompanyEmployees(@PathVariable("companyId") int companyId) {
-        companyService.deleteCompanyEmployees(companyId);
-    }
+//    @PutMapping("/companies/{companyId}")
+//    public void updateCompany(@PathVariable("companyId") int companyId, @RequestBody Company company) {
+//        companyService.updateCompany(companyId, company);
+//    }
+//
+//    @DeleteMapping("/companies/{companyId}")
+//    public void deleteCompanyEmployees(@PathVariable("companyId") int companyId) {
+//        companyService.deleteCompanyEmployees(companyId);
+//    }
 }

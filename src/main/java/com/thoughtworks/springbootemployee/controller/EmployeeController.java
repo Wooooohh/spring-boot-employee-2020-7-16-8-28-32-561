@@ -7,18 +7,18 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController()
+@RestController("/employees")
 public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
 
-    @GetMapping("/employees/{employeeId}")
+    @GetMapping("/{employeeId}")
     public Employee getEmployee(@PathVariable("employeeId") int employeeId) {
         return employeeService.getEmployee(employeeId);
     }
 
-    @GetMapping("/employees")
+    @GetMapping
     public List<Employee> getEmployees(
             @RequestParam(required = false, defaultValue = "0") int page,
             @RequestParam(required = false, defaultValue = "0") int pageSize,
@@ -27,22 +27,22 @@ public class EmployeeController {
             if (!gender.equals("")) {
                 return employeeService.getEmployeesByGender(gender);
             }
-            return employeeService.getEmployees();
+            return null;
         }
         return employeeService.getEmployeesByPage(page, pageSize);
     }
 
-    @PostMapping("/employees")
+    @PostMapping("")
     public void addEmployee(@RequestBody Employee employee) {
         employeeService.addEmployee(employee);
     }
 
-    @PutMapping("/employees/{employeeId}")
+    @PutMapping("/{employeeId}")
     public void updateEmployee(@PathVariable("employeeId") int employeeId, @RequestBody Employee employee) {
         employeeService.updateEmployee(employeeId, employee);
     }
 
-    @DeleteMapping("/employees/{employeeId}")
+    @DeleteMapping("/{employeeId}")
     public void deleteEmployee(@PathVariable("employeeId") int employeeId) {
         employeeService.deleteEmployee(employeeId);
     }
