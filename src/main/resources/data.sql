@@ -17,3 +17,5 @@ INSERT INTO employee (name, age, gender,company_id) VALUES
    name VARCHAR(100) NOT NULL
  );
  INSERT INTO company (name) VALUES('tw');
+  INSERT INTO company (name) VALUES('oocl');
+   INSERT INTO company (name) VALUES('tencent');
