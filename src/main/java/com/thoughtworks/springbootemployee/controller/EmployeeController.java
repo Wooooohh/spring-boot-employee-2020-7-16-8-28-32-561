@@ -26,14 +26,12 @@ public class EmployeeController {
         if(unPaged){
             return employeeService.getCompaniesByPage(pageable);
         }
-
         return employeeService.getCompaniesByPage(Pageable.unpaged());
     }
 
-    @GetMapping("/employees/gender")
-    public List<Employee> getEmployeesByGender(
-            @RequestParam(required = false, defaultValue = "") String gender) {
-        return null;
+    @GetMapping(value = "/employees", params = "gender")
+    public List<Employee> getEmployeesByGender(@RequestParam String gender) {
+        return employeeService.getEmployeesByGender(gender);
     }
 
     @PostMapping

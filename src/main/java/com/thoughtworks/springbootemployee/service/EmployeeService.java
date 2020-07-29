@@ -2,6 +2,7 @@ package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class EmployeeService {
 
 
     public Employee getEmployee(int employeeId) {
-       return  employeeRepository.getOne(employeeId);
+       return  employeeRepository.findById(employeeId).get();
     }
 
     public List<Employee> getEmployeesByPage(int page, int pageSize) {
@@ -27,7 +28,9 @@ public class EmployeeService {
     }
 
     public List<Employee> getEmployeesByGender(String gender) {
-        return null;
+        Employee employee = new Employee();
+        employee.setGender(gender);
+        return employeeRepository.findByGenderEquals(gender);
     }
 
     public void addEmployee(Employee employee) {
