@@ -20,7 +20,7 @@ public class CompanyService {
         return companyRepository.findAll(pageable);
     }
 
-    public List<Employee> getCompanyByCompanyId(int companyId){
+    public List<Employee> getEmployeesByCompanyId(int companyId){
         return companyRepository.findById(companyId).get().getEmployees();
     }
 
@@ -34,5 +34,9 @@ public class CompanyService {
 
     public void deleteCompany(int companyId) {
         companyRepository.deleteById(companyId);
+    }
+
+    public Company getCompanyByCompanyId(int companyId) {
+        return companyRepository.findById(companyId).get();
     }
 }

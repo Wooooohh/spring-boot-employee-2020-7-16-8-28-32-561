@@ -17,9 +17,14 @@ public class CompanyController {
     @Autowired
     private CompanyService companyService;
 
+    @GetMapping("/companies/{companyId}")
+    public Company getOneCompany(@PathVariable("companyId") int companyId){
+        return companyService.getCompanyByCompanyId(companyId);
+    }
+
     @GetMapping("/companies/{companyId}/employees")
     public List<Employee> getEmployeesByCompanyId(@PathVariable("companyId") int companyId) {
-        return companyService.getCompanyByCompanyId(companyId);
+        return companyService.getEmployeesByCompanyId(companyId);
     }
 
     @GetMapping("/companies")
