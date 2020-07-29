@@ -2,6 +2,7 @@ package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.dto.EmployeeRequestDto;
 import com.thoughtworks.springbootemployee.entity.Employee;
+import com.thoughtworks.springbootemployee.exception.CompanyNotFoundException;
 import com.thoughtworks.springbootemployee.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,7 +37,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/employees")
-    public void addEmployee(@RequestBody EmployeeRequestDto employeeRequestDto) {
+    public void addEmployee(@RequestBody EmployeeRequestDto employeeRequestDto) throws CompanyNotFoundException {
         employeeService.addEmployee(employeeRequestDto);
     }
 
