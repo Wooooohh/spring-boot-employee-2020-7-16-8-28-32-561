@@ -27,13 +27,13 @@ public class CompanyServiceTest {
     @Test
     public void should_return_list_when_get_companies_by_page_info_given_page_info_and_companies(){
         //given
-        int page = 2;
-        int pageSize = 2;
-        List<Company> companyList = new ArrayList<>();
-        companyList.add(new Company(4));
-        companyList.add(new Company(5));
-
-        Mockito.when(companyRepository.findCompaniesByPageInfo(page, pageSize)).thenReturn(companyList);
+//        int page = 2;
+//        int pageSize = 2;
+//        List<Company> companyList = new ArrayList<>();
+//        companyList.add(new Company(4));
+//        companyList.add(new Company(5));
+//
+//        Mockito.when(companyRepository.findCompaniesByPageInfo(page, pageSize)).thenReturn(companyList);
 
         //when
 //        List<Company> result = companyService.getCompaniesByPage(page, pageSize);

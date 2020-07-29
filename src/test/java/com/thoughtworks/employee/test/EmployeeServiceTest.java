@@ -1,4 +1,4 @@
-package com.thoughtworks.springbootemployee;
+package com.thoughtworks.employee.test;
 
 import com.thoughtworks.springbootemployee.dto.EmployeeRequestDto;
 import com.thoughtworks.springbootemployee.entity.Company;
@@ -22,33 +22,31 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 //@SpringBootTest
-class SpringBootEmployeeApplicationTests {
+public class EmployeeServiceTest {
 
-	@Mock
-	CompanyRepository companyRepository;
+    @Mock
+    CompanyRepository companyRepository;
 
-	@Mock
-	EmployeeRepository employeeRepository;
+    @Mock
+    EmployeeRepository employeeRepository;
 
-	@InjectMocks
-	EmployeeService employeeService;
+    @InjectMocks
+    EmployeeService employeeService;
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
+    @Test
+    void when_add_employee_given_employee_with_company_id_is_1(){
+        //given
+        EmployeeRequestDto employeeRequestDto = new EmployeeRequestDto(8, "Jack", 1, "male", 1);
+        when(companyRepository.findById(any())).thenReturn(Optional.of(new Company()));
 
-	@Test
-	void should_return_none_when_add_employee_given_employee_with_company_id_is_1(){
-		//given
-		EmployeeRequestDto employeeRequestDto = new EmployeeRequestDto(8, "Jack", 1, "male", 1);
-		when(companyRepository.findById(any())).thenReturn(Optional.of(new Company()));
+        //when
+        employeeService.addEmployee(employeeRequestDto);
 
-		//when
-		employeeService.addEmployee(employeeRequestDto);
-
-		//then
-		verify(employeeRepository, times(1)).save(any(Employee.class));
-	}
-
+        //then
+        verify(employeeRepository, times(1)).save(any(Employee.class));
+    }
 }

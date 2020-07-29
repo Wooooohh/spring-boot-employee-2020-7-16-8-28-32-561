@@ -17,6 +17,13 @@ public class Company {
     @JsonIgnore
     private List<Employee> employees;
 
+    public Company(int companyId, String name) {
+        this.companyId = companyId;
+        this.name = name;
+    }
+
+    public Company() {
+    }
 
     public List<Employee> getEmployees() {
         return employees;

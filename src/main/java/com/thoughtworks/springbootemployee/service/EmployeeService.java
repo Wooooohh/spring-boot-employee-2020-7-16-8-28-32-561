@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.dto.EmployeeRequestDto;
+import com.thoughtworks.springbootemployee.entity.Company;
 import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
@@ -26,18 +27,22 @@ public class EmployeeService {
     }
 
 
+
+
     public Employee getEmployee(int employeeId) {
-       return  employeeRepository.findById(employeeId).get();
+        return employeeRepository.findById(employeeId).get();
     }
 
     public List<Employee> getEmployeesByGender(String gender) {
-        return employeeRepository.findByGenderEquals(gender);
+
+        List<Employee> employees =  employeeRepository.findByGenderEquals(gender);
+        return employees;
+
+
     }
 
     public void addEmployee(EmployeeRequestDto employeeRequestDto) {
-        Employee employee = employeeRequestDto.toEntity();
-        employee.setCompany(companyRepository.findById(employeeRequestDto.getCompanyId()).get());
-        employeeRepository.save(employee);
+
     }
 
     public void updateEmployee(Employee employee) {
