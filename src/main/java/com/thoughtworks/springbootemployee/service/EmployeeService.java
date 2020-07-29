@@ -27,21 +27,20 @@ public class EmployeeService {
     }
 
 
-
-
     public Employee getEmployee(int employeeId) {
         return employeeRepository.findById(employeeId).get();
     }
 
     public List<Employee> getEmployeesByGender(String gender) {
-
-        List<Employee> employees =  employeeRepository.findByGenderEquals(gender);
-        return employees;
-
-
+        return employeeRepository.findByGenderEquals(gender);
     }
 
     public void addEmployee(EmployeeRequestDto employeeRequestDto) {
+        Employee employee = employeeRequestDto.toEntity();
+        Company company = companyRepository.findById(employeeRequestDto.getCompanyId()).get();
+        employee.setCompany(company);
+        employeeRepository.save(employee);
+
 
     }
 
