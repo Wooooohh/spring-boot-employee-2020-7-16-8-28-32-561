@@ -10,31 +10,27 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/employees")
+@RestController
 public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
 
-    @GetMapping("/{employeeId}")
+    @GetMapping("/employees/{employeeId}")
     public Employee getEmployee(@PathVariable("employeeId") int employeeId) {
         return employeeService.getEmployee(employeeId);
     }
 
-    @GetMapping(params = "page")
+    @GetMapping("/employees")
     public Page<Employee> getEmployeesByPage(@PageableDefault(page = 0,size = 1) Pageable pageable, @RequestParam( name = "unPage",defaultValue = "false") Boolean unPaged){
-        if(unPaged)
+        if(unPaged){
             return employeeService.getCompaniesByPage(pageable);
+        }
+
         return employeeService.getCompaniesByPage(Pageable.unpaged());
     }
 
-    @GetMapping
-    public List<Employee> getEmployees(
-            @RequestParam(required = false, defaultValue = "") String gender) {
-        return null;
-    }
-
-    @GetMapping(params = "gender")
+    @GetMapping("/employees/gender")
     public List<Employee> getEmployeesByGender(
             @RequestParam(required = false, defaultValue = "") String gender) {
         return null;
