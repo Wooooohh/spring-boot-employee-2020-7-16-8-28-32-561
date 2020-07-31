@@ -39,6 +39,7 @@ public class EmployeeIntegrationTest {
     @Test
     void should_return_ok_when_get_employees() throws Exception {
         Company company =new Company("oocl");
+        companyRepository.save(company);
         Employee employee = new Employee("jack", "male", company);
         employeeRepository.save(employee);
         mockMvc.perform(get("/employees"))
@@ -47,8 +48,9 @@ public class EmployeeIntegrationTest {
 
     @Test
     void should_return_created_when_post_employee_given_employee() throws Exception {
+        Company company =new Company("oocl");
+        companyRepository.save(company);
         String employee = " {\n" +
-                "            \"id\": 5,\n" +
                 "            \"name\": \"Zoeaa\",\n" +
                 "            \"age\": 15,\n" +
                 "            \"gender\": \"male\",\n" +
@@ -61,6 +63,7 @@ public class EmployeeIntegrationTest {
     @Test
     void should_return_employees_when_get_employees_by_page_given_page_info() throws Exception {
         Company company =new Company("oocl");
+        companyRepository.save(company);
         Employee emloyee1 = new Employee("jack", 20, "male", company);
         Employee emloyee2 = new Employee("alisa", 20, "female", company);
         employeeRepository.save(emloyee1);
@@ -72,7 +75,8 @@ public class EmployeeIntegrationTest {
     @Test
     void when_delete_employee_given_employee_id() throws Exception {
         //given
-        Company company = companyRepository.findById(1).get();
+        Company company =new Company("oocl");
+        companyRepository.save(company);
         Employee employee = new Employee( "Jack", 20, "male", company);
         employeeRepository.save(employee);
         Employee addedEmployee = employeeRepository.findByName(employee.getName());
