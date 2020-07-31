@@ -1,31 +1,33 @@
 package com.thoughtworks.springbootemployee.dto;
 
 import com.thoughtworks.springbootemployee.entity.Employee;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.factory.config.BeanDefinition;
 
-public class EmployeeRequestDto {
-    private int id;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+public class EmployeeRequest {
+    @NotBlank
     private String name;
-    private int age;
+
+    @Max(20)
+    @Min(0)
+    private Integer age;
+
     private String gender;
     private int companyId;
 
-    public EmployeeRequestDto(int id, String name, int age, String gender, int companyId) {
-        this.id = id;
+    public EmployeeRequest(String name, int age, String gender, int companyId) {
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.companyId = companyId;
     }
 
-    public EmployeeRequestDto() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public EmployeeRequest() {
     }
 
     public String getName() {
@@ -61,6 +63,6 @@ public class EmployeeRequestDto {
     }
 
     public Employee toEntity() {
-        return new Employee(this);
+        return null;
     }
 }

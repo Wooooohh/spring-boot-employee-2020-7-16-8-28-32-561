@@ -1,4 +1,4 @@
-package com.thoughtworks.company.test;
+package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.entity.Company;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;

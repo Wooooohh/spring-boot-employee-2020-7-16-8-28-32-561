@@ -1,0 +1,1 @@
+alter table emp alter column name long not null;

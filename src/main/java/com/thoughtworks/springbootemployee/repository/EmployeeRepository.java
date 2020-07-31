@@ -11,4 +11,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
 
     List<Employee> findByGenderEquals(String gender);
+
+    Employee findByName(String name);
 }

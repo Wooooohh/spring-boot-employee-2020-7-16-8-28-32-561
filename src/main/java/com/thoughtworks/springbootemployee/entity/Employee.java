@@ -1,6 +1,6 @@
 package com.thoughtworks.springbootemployee.entity;
 
-import com.thoughtworks.springbootemployee.dto.EmployeeRequestDto;
+import com.thoughtworks.springbootemployee.dto.EmployeeRequest;
 
 import javax.persistence.*;
 
@@ -17,11 +17,10 @@ public class Employee {
     @JoinColumn(name = "company_id")
     private Company company;
 
-    public Employee(EmployeeRequestDto employeeRequestDto) {
-        this.id = employeeRequestDto.getId();
-        this.name = employeeRequestDto.getName();
-        this.age = employeeRequestDto.getAge();
-        this.gender = employeeRequestDto.getGender();
+    public Employee(EmployeeRequest employeeRequest) {
+        this.name = employeeRequest.getName();
+        this.age = employeeRequest.getAge();
+        this.gender = employeeRequest.getGender();
     }
 
     public Employee() {
@@ -31,6 +30,18 @@ public class Employee {
         this.id = id;
         this.name = name;
         this.age = age;
+        this.gender = gender;
+        this.company = company;
+    }
+    public Employee(String name, int age, String gender, Company company) {
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.company = company;
+    }
+
+    public Employee(String name, String gender, Company company) {
+        this.name = name;
         this.gender = gender;
         this.company = company;
     }

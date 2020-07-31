@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.controller;
 
-import com.thoughtworks.springbootemployee.dto.EmployeeRequestDto;
+import com.thoughtworks.springbootemployee.dto.EmployeeRequest;
+import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
 import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.exception.CompanyNotFoundException;
 import com.thoughtworks.springbootemployee.service.EmployeeService;
@@ -10,35 +11,39 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
+
 @RestController
+@RequestMapping("/employees")
 public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
 
-    @GetMapping("/employees/{employeeId}")
+    @GetMapping("/{employeeId}")
     public Employee getEmployee(@PathVariable("employeeId") int employeeId) {
         return employeeService.getEmployee(employeeId);
     }
 
-    @GetMapping("/employees")
-    public Page<Employee> getEmployeesByPage(@PageableDefault(page = 0,size = 1) Pageable pageable, @RequestParam( name = "unPage",defaultValue = "false") Boolean unPaged){
-        if(unPaged){
-            return employeeService.getCompaniesByPage(pageable);
+    @GetMapping
+    public Page<Employee> getEmployeesByPage(@PageableDefault(page = 0, size = 1) Pageable pageable, @RequestParam(name = "unPaged", defaultValue = "true") Boolean unPaged) {
+        if (unPaged) {
+            return employeeService.getCompaniesByPage(Pageable.unpaged());
         }
-        return employeeService.getCompaniesByPage(Pageable.unpaged());
+        return employeeService.getCompaniesByPage(pageable);
+
     }
 
-    @GetMapping(value = "/employees", params = "gender")
+    @GetMapping(params = "gender")
     public List<Employee> getEmployeesByGender(@RequestParam String gender) {
         return employeeService.getEmployeesByGender(gender);
     }
 
-    @PostMapping("/employees")
-    public void addEmployee(@RequestBody EmployeeRequestDto employeeRequestDto) throws CompanyNotFoundException {
-        employeeService.addEmployee(employeeRequestDto);
+    @PostMapping
+    public EmployeeResponse addEmployee(@RequestBody(required = true) @Valid EmployeeRequest employeeRequest) throws CompanyNotFoundException {
+        return employeeService.addEmployee(employeeRequest);
     }
 
     @PutMapping("/{employeeId}")
