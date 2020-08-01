@@ -30,8 +30,8 @@ public class CompanyController {
     @GetMapping("/companies")
     public Page<Company> getCompaniesByPage(@PageableDefault(page = 0,size = 1) Pageable pageable, @RequestParam( name = "unPage",defaultValue = "false") Boolean unPaged){
         if(unPaged)
-            return companyService.getCompaniesByPage(pageable);
-        return companyService.getCompaniesByPage(Pageable.unpaged());
+            return companyService.getCompaniesByPage(Pageable.unpaged());
+        return companyService.getCompaniesByPage(pageable);
     }
 
     @PostMapping("/companies")

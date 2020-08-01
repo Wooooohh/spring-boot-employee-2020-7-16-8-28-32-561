@@ -43,13 +43,15 @@ public class CompanyIntegrationTest {
     Company addedCompany = companyRepository.findByName("oocl");
     // when
     mockMvc
-            .perform(get("/companies/" + addedCompany.getCompanyId()))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("name").value("oocl"));
+        .perform(get("/companies/" + addedCompany.getCompanyId()))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("name").value("oocl"));
   }
 
   @Test
-  void should_return_employees_when_get_employees_by_company_id_given_company_id_and_two_employees_in_this_company() throws Exception {
+  void
+      should_return_employees_when_get_employees_by_company_id_given_company_id_and_two_employees_in_this_company()
+          throws Exception {
     List<Employee> employees = new ArrayList<>();
     Company company = new Company("oocl");
     Employee employee = new Employee("Jack", 20, "male", company);
@@ -62,15 +64,33 @@ public class CompanyIntegrationTest {
     employeeRepository.save(employee2);
     Company addedCompany = companyRepository.findByName("oocl");
     mockMvc
-            .perform(get("/companies/" + addedCompany.getCompanyId() + "/employees"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("[0].name").value("Jack"));
-
+        .perform(get("/companies/" + addedCompany.getCompanyId() + "/employees"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("[0].name").value("Jack"));
   }
 
   @Test
-  void should_return_paged_companies_when_get_employees_by_page_given_page_info()
-      {}
+  void should_return_paged_companies_when_get_employees_by_page_given_page_info() throws Exception {
+    // given
+    List<Employee> employees = new ArrayList<>();
+    Company company = new Company("oocl");
+    Employee employee = new Employee("Jack", 20, "male", company);
+    employees.add(employee);
+    Employee employee2 = new Employee("Rose", 20, "female", company);
+    employees.add(employee2);
+    company.setEmployees(employees);
+    companyRepository.save(company);
+    employeeRepository.save(employee);
+    employeeRepository.save(employee2);
+    Company company2 = new Company("tw");
+    companyRepository.save(company2);
+
+    // when
+    mockMvc
+            .perform(get("/companies").param("page", "0").param("size", "1").param("unPaged", "false"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("content[1]").doesNotExist());
+  }
 
   @Test
   void should_return_updated_company_when_update_company_given_company() {}
