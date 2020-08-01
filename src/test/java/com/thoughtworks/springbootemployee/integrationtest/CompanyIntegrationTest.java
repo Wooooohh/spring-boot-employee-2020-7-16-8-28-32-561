@@ -50,6 +50,22 @@ public class CompanyIntegrationTest {
 
   @Test
   void should_return_employees_when_get_employees_by_company_id_given_company_id_and_two_employees_in_this_company() throws Exception {
+    List<Employee> employees = new ArrayList<>();
+    Company company = new Company("oocl");
+    Employee employee = new Employee("Jack", 20, "male", company);
+    employees.add(employee);
+    Employee employee2 = new Employee("Rose", 20, "female", company);
+    employees.add(employee2);
+    company.setEmployees(employees);
+    companyRepository.save(company);
+    employeeRepository.save(employee);
+    employeeRepository.save(employee2);
+    Company addedCompany = companyRepository.findByName("oocl");
+    mockMvc
+            .perform(get("/companies/" + addedCompany.getCompanyId() + "/employees"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("[0].name").value("Jack"));
+
   }
 
   @Test
