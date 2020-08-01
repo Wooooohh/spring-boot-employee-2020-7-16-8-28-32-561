@@ -27,18 +27,18 @@ public class CompanyIntegrationTest {
   }
 
   @Test
-  void should_return_company_when_get_company_by_id_given_company_id() throws Exception {}
+  void should_return_company_when_get_company_by_id_given_company_id(){}
 
   @Test
   void should_return_employees_when_get_employees_by_company_id_given_company_id()
-      throws Exception {}
+  {}
 
   @Test
   void should_return_paged_companies_when_get_employees_by_page_given_page_info()
-      throws Exception {}
+      {}
 
   @Test
-  void should_return_updated_company_when_update_company_given_company() throws Exception {}
+  void should_return_updated_company_when_update_company_given_company() {}
 
   @Test
   void should_return_added_company_when_add_company_given_company() {}

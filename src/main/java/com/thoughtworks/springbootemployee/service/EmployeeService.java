@@ -37,16 +37,18 @@ public class EmployeeService {
         return employeeRepository.findByGenderEquals(gender);
     }
 
-    public void addEmployee2(EmployeeRequest employeeRequest) throws CompanyNotFoundException {
-        Employee employee = employeeRequest.toEntity();
-        Company company = companyRepository.findById(employeeRequest.getCompanyId()).orElseThrow(CompanyNotFoundException::new);
-        employee.setCompany(company);
-        employeeRepository.save(employee);
-    }
+//    public void addEmployee2(EmployeeRequest employeeRequest) throws CompanyNotFoundException {
+//        Employee employee = employeeRequest.toEntity();
+//        Company company = companyRepository.findById(employeeRequest.getCompanyId()).orElseThrow(CompanyNotFoundException::new);
+//        employee.setCompany(company);
+//        employeeRepository.save(employee);
+//    }
 
 
-    public void updateEmployee(Employee employee) {
-        employeeRepository.save(employee);
+    public Employee updateEmployee(int employeeId, EmployeeRequest employeeRequest) {
+        Company company = companyRepository.findById(employeeRequest.getCompanyId()).get();
+        Employee employee = EmployeeMapper.employeeRequestToEmployee(employeeId, employeeRequest, company);
+        return employeeRepository.save(employee);
     }
 
     public void deleteEmployee(int employeeId) {

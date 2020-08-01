@@ -42,13 +42,13 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public EmployeeResponse addEmployee(@RequestBody(required = true) @Valid EmployeeRequest employeeRequest) throws CompanyNotFoundException {
+    public EmployeeResponse addEmployee(@RequestBody(required = true) @Valid EmployeeRequest employeeRequest) {
         return employeeService.addEmployee(employeeRequest);
     }
 
     @PutMapping("/{employeeId}")
-    public void updateEmployee(@RequestBody Employee employee) {
-        employeeService.updateEmployee(employee);
+    public Employee updateEmployee( @PathVariable("employeeId") int employeeId, @RequestBody(required = true) @Valid EmployeeRequest employeeRequest) {
+        return employeeService.updateEmployee(employeeId, employeeRequest);
     }
 
     @DeleteMapping("/{employeeId}")

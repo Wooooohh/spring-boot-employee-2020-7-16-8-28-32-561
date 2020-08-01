@@ -4,13 +4,10 @@ import com.thoughtworks.springbootemployee.entity.Employee;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.factory.config.BeanDefinition;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 public class EmployeeRequest {
-    @NotBlank
+//    @NotNull
     private String name;
 
     @Max(20)
@@ -19,16 +16,6 @@ public class EmployeeRequest {
 
     private String gender;
     private int companyId;
-
-    public EmployeeRequest(String name, int age, String gender, int companyId) {
-        this.name = name;
-        this.age = age;
-        this.gender = gender;
-        this.companyId = companyId;
-    }
-
-    public EmployeeRequest() {
-    }
 
     public String getName() {
         return name;

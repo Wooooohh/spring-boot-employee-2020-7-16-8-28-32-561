@@ -35,12 +35,12 @@ public class EmployeeIntegrationTest {
 
   @Test
   void should_return_ok_when_get_employees() throws Exception {
-    //given
+    // given
     Company company = new Company("oocl");
     companyRepository.save(company);
     Employee employee = new Employee("jack", "male", company);
     employeeRepository.save(employee);
-    //when
+    // when
     mockMvc
         .perform(get("/employees"))
         .andExpect(status().isOk())
@@ -50,7 +50,7 @@ public class EmployeeIntegrationTest {
   // 创建员工的信息不合法
   @Test
   void should_return_created_employee_when_post_employee_given_employee() throws Exception {
-    //given
+    // given
     Company company = new Company("oocl");
     companyRepository.save(company);
     String employee =
@@ -60,7 +60,7 @@ public class EmployeeIntegrationTest {
             + "            \"gender\": \"male\",\n"
             + "            \"companyId\": \"1\" \n"
             + " }";
-    //when
+    // when
     mockMvc
         .perform(
             post("/employees").contentType(MediaType.APPLICATION_PROBLEM_JSON).content(employee))
@@ -71,14 +71,14 @@ public class EmployeeIntegrationTest {
   // page信息错误
   @Test
   void should_return_paged_employees_when_get_employees_by_page_given_page_info() throws Exception {
-    //given
+    // given
     Company company = new Company("oocl");
     companyRepository.save(company);
     Employee employee1 = new Employee("jack", 20, "male", company);
     Employee employee2 = new Employee("alisa", 20, "female", company);
     employeeRepository.save(employee1);
     employeeRepository.save(employee2);
-    //when
+    // when
     mockMvc
         .perform(get("/employees").param("page", "0").param("size", "1").param("unPaged", "false"))
         .andExpect(status().isOk())
@@ -95,27 +95,67 @@ public class EmployeeIntegrationTest {
     employeeRepository.save(employee);
     Employee addedEmployee = employeeRepository.findByName(employee.getName());
     // when
-    mockMvc.perform(delete("/employees" + addedEmployee.getId())).andExpect(status().isOk());
+    mockMvc.perform(delete("/employees/" + addedEmployee.getId())).andExpect(status().isOk());
   }
 
   // id不存在
   @Test
   void should_return_employee_when_get_employee_with_id_given_employee_id() throws Exception {
-      //given
+    // given
     Company company = new Company("oocl");
     companyRepository.save(company);
     Employee employee = new Employee("Jack", 20, "male", company);
     employeeRepository.save(employee);
     Employee addedEmployee = employeeRepository.findByName(employee.getName());
-    //when
-    mockMvc.perform(get("/employees/" + addedEmployee.getId())).andExpect(status().isOk()).andExpect(jsonPath("name").value("Jack"));
+    // when
+    mockMvc
+        .perform(get("/employees/" + addedEmployee.getId()))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("name").value("Jack"));
   }
 
   @Test
   void
-      should_return_employees_with_gender_is_male_when_get_employees_by_gender_given_gender_is_male() {}
+      should_return_employees_with_gender_is_male_when_get_employees_by_gender_given_gender_is_male()
+          throws Exception {
+    // given
+    Company company = new Company("oocl");
+    companyRepository.save(company);
+    Employee employee = new Employee("Jack", 20, "male", company);
+    employeeRepository.save(employee);
+    Employee employee2 = new Employee("Rose", 20, "female", company);
+    employeeRepository.save(employee2);
+    // when
+    mockMvc
+        .perform(get("/employees?gender=male"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("[0].name").value("Jack"));
+  }
 
   // employee's id 不存在
   @Test
-  void should_return_updated_employee_when_update_employee_given_employee() {}
+  void should_return_updated_employee_when_update_employee_given_employee() throws Exception {
+    Company company = new Company("oocl");
+    companyRepository.save(company);
+    Employee employee = new Employee("Jack", 20, "male", company);
+    employeeRepository.save(employee);
+    Employee addedEmployee = employeeRepository.findByName(employee.getName());
+    String employeeJson =
+        " {\n"
+            + "            \"name\": \"Edward\",\n"
+            + "            \"age\": 15,\n"
+            + "            \"gender\": \"male\",\n"
+            + "            \"companyId\": \""
+            + company.getCompanyId()
+            + "\" \n"
+            + " }";
+    // when
+    mockMvc
+        .perform(
+            put("/employees/" + addedEmployee.getId())
+                .contentType(MediaType.APPLICATION_PROBLEM_JSON)
+                .content(employeeJson))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("name").value("Edward"));
+  }
 }

@@ -15,6 +15,16 @@ public class EmployeeMapper {
         );
     }
 
+    public static Employee employeeRequestToEmployee(int employeeId, EmployeeRequest employeeRequest, Company company){
+        return new Employee(
+                employeeId,
+                employeeRequest.getName(),
+                employeeRequest.getAge(),
+                employeeRequest.getGender(),
+                company
+        );
+    }
+
     public static EmployeeResponse employeeToEmployeeResponse(Employee employee){
         return new EmployeeResponse(
                 employee.getId(),
