@@ -1,7 +1,10 @@
 package com.thoughtworks.springbootemployee.service;
 
+import com.thoughtworks.springbootemployee.dto.CompanyRequest;
 import com.thoughtworks.springbootemployee.entity.Company;
 import com.thoughtworks.springbootemployee.entity.Employee;
+import com.thoughtworks.springbootemployee.mapper.CompanyMapper;
+import com.thoughtworks.springbootemployee.mapper.EmployeeMapper;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,8 +31,10 @@ public class CompanyService {
         companyRepository.save(company);
     }
 
-    public void updateCompany(Company company) {
-        companyRepository.save(company);
+    public Company updateCompany(int companyId, CompanyRequest companyRequest) {
+        Company company = companyRepository.findById(companyId).get();
+        Company company1 = CompanyMapper.companyRequestToCompany(company.getCompanyId(), companyRequest, company);
+        return companyRepository.save(company1);
     }
 
     public void deleteCompany(int companyId) {

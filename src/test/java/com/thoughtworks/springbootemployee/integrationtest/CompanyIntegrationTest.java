@@ -10,12 +10,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -87,13 +89,29 @@ public class CompanyIntegrationTest {
 
     // when
     mockMvc
-            .perform(get("/companies").param("page", "0").param("size", "1").param("unPaged", "false"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("content[1]").doesNotExist());
+        .perform(get("/companies").param("page", "0").param("size", "1").param("unPaged", "false"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("content[1]").doesNotExist());
   }
 
   @Test
-  void should_return_updated_company_when_update_company_given_company() {}
+  void should_return_updated_company_when_update_company_given_company() throws Exception {
+    Company company = new Company("oocl");
+    companyRepository.save(company);
+
+    String companyJson =
+            " {\n"
+                    + "            \"name\": \"tw\"\n"
+                    + " }";
+    // when
+    mockMvc
+            .perform(
+                    put("/companies/" + company.getCompanyId())
+                            .contentType(MediaType.APPLICATION_PROBLEM_JSON)
+                            .content(companyJson))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("name").value("tw"));
+  }
 
   @Test
   void should_return_added_company_when_add_company_given_company() {}

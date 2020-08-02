@@ -1,5 +1,7 @@
 package com.thoughtworks.springbootemployee.controller;
 
+import com.thoughtworks.springbootemployee.dto.CompanyRequest;
+import com.thoughtworks.springbootemployee.dto.EmployeeRequest;
 import com.thoughtworks.springbootemployee.entity.Company;
 import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.service.CompanyService;
@@ -9,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController("companyController")
@@ -39,9 +42,9 @@ public class CompanyController {
         companyService.addCompany(company);
     }
 
-    @PutMapping("/companies")
-    public void updateCompany(@RequestBody Company company) {
-        companyService.updateCompany(company);
+    @PutMapping("/companies/{companyId}")
+    public Company updateCompany(@PathVariable("companyId") int companyId, @RequestBody(required = true) @Valid CompanyRequest companyRequest) {
+        return companyService.updateCompany(companyId, companyRequest);
     }
 
     @DeleteMapping("/companies/{companyId}")
