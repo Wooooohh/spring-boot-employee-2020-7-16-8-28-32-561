@@ -7,7 +7,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import javax.validation.constraints.*;
 
 public class EmployeeRequest {
-//    @NotNull
+    @NotBlank
     private String name;
 
     @Max(20)

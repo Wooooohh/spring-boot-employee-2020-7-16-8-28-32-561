@@ -55,7 +55,7 @@ public class EmployeeIntegrationTest {
     companyRepository.save(company);
     String employee =
         " {\n"
-            + "            \"name\": \"Zoeaa\",\n"
+            + "            \"name\": \"Zoe\",\n"
             + "            \"age\": 15,\n"
             + "            \"gender\": \"male\",\n"
             + "            \"companyId\": \"1\" \n"
@@ -65,7 +65,7 @@ public class EmployeeIntegrationTest {
         .perform(
             post("/employees").contentType(MediaType.APPLICATION_PROBLEM_JSON).content(employee))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("name").value("Zoeaa"));
+        .andExpect(jsonPath("name").value("Zoe"));
   }
 
   // page信息错误
@@ -158,4 +158,27 @@ public class EmployeeIntegrationTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("name").value("Edward"));
   }
+
+  //name: must not be blank
+
+  @Test
+  void should_return_name_must_not_be_blank_when_post_employee_given_employee_with_name_is_blank() throws Exception {
+    // given
+    Company company = new Company("oocl");
+    companyRepository.save(company);
+    String employee =
+            " {\n"
+                    + "            \"name\": \"\",\n"
+                    + "            \"age\": 15,\n"
+                    + "            \"gender\": \"male\",\n"
+                    + "            \"companyId\": \"1\" \n"
+                    + " }";
+    // when
+    mockMvc
+            .perform(
+                    post("/employees").contentType(MediaType.APPLICATION_PROBLEM_JSON).content(employee))
+            .andExpect(status().is4xxClientError())
+            .andExpect(jsonPath("[0]").value("name: must not be blank"));
+  }
+
 }
