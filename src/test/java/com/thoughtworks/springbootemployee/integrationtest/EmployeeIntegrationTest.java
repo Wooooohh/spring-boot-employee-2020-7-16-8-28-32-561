@@ -201,4 +201,24 @@ public class EmployeeIntegrationTest {
             .andExpect(jsonPath("[0]").value("age: must be less than or equal to 20"));
   }
 
+  @Test
+  void should_return_name_is_not_blank_and_age_is_less_than_or_equal_to_20_when_post_employee_given_employee_with_name_is_blank_and_age_is_lager_than_20() throws Exception {
+    // given
+    Company company = new Company("oocl");
+    companyRepository.save(company);
+    String employee =
+            " {\n"
+                    + "            \"name\": \"\",\n"
+                    + "            \"age\": 22,\n"
+                    + "            \"gender\": \"male\",\n"
+                    + "            \"companyId\": \"1\" \n"
+                    + " }";
+    // when
+    mockMvc
+            .perform(
+                    post("/employees").contentType(MediaType.APPLICATION_PROBLEM_JSON).content(employee))
+            .andExpect(status().is4xxClientError())
+            .andExpect(jsonPath("[1]").value("name: must not be blank"))
+            .andExpect(jsonPath("[0]").value("age: must be less than or equal to 20"));
+  }
 }
