@@ -16,8 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -114,7 +113,20 @@ public class CompanyIntegrationTest {
   }
 
   @Test
-  void should_return_added_company_when_add_company_given_company() {}
+  void should_return_added_company_when_add_company_given_company() throws Exception {
+    String companyJson =
+            " {\n"
+                    + "            \"name\": \"oocl\"\n"
+                    + " }";
+    // when
+    mockMvc
+            .perform(
+                    post("/companies")
+                            .contentType(MediaType.APPLICATION_PROBLEM_JSON)
+                            .content(companyJson))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("name").value("oocl"));
+  }
 
   @Test
   void should_return_ok_when_delete_company_given_company_id() {}

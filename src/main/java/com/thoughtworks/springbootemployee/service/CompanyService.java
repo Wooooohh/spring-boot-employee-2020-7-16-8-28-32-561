@@ -27,8 +27,8 @@ public class CompanyService {
         return companyRepository.findById(companyId).get().getEmployees();
     }
 
-    public void addCompany(Company company) {
-        companyRepository.save(company);
+    public Company addCompany(Company company) {
+        return companyRepository.save(company);
     }
 
     public Company updateCompany(int companyId, CompanyRequest companyRequest) {
