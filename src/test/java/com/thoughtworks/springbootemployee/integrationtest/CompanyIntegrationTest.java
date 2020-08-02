@@ -129,5 +129,15 @@ public class CompanyIntegrationTest {
   }
 
   @Test
-  void should_return_ok_when_delete_company_given_company_id() {}
+  void should_return_ok_when_delete_company_given_company_id() throws Exception {
+
+    Company company = new Company("oocl");
+    companyRepository.save(company);
+    Company addedCompany = companyRepository.findByName("oocl");
+    // when
+    mockMvc
+            .perform(
+                    delete("/companies/"+addedCompany.getCompanyId()))
+            .andExpect(status().isOk());
+  }
 }
