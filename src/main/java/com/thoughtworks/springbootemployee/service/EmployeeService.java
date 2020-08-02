@@ -5,6 +5,7 @@ import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
 import com.thoughtworks.springbootemployee.entity.Company;
 import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.exception.CompanyNotFoundException;
+import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
 import com.thoughtworks.springbootemployee.mapper.EmployeeMapper;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
@@ -37,22 +38,16 @@ public class EmployeeService {
         return employeeRepository.findByGenderEquals(gender);
     }
 
-//    public void addEmployee2(EmployeeRequest employeeRequest) throws CompanyNotFoundException {
-//        Employee employee = employeeRequest.toEntity();
-//        Company company = companyRepository.findById(employeeRequest.getCompanyId()).orElseThrow(CompanyNotFoundException::new);
-//        employee.setCompany(company);
-//        employeeRepository.save(employee);
-//    }
-
 
     public Employee updateEmployee(int employeeId, EmployeeRequest employeeRequest) {
-        Company company = companyRepository.findById(employeeRequest.getCompanyId()).get();
+        Company company = companyRepository.findById(employeeRequest.getCompanyId()).orElseThrow(CompanyNotFoundException::new);
         Employee employee = EmployeeMapper.employeeRequestToEmployee(employeeId, employeeRequest, company);
         return employeeRepository.save(employee);
     }
 
     public void deleteEmployee(int employeeId) {
-        employeeRepository.deleteById(employeeId);
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(EmployeeNotFoundException::new);
+        employeeRepository.deleteById(employee.getId());
 
     }
 
@@ -61,7 +56,7 @@ public class EmployeeService {
     }
 
     public EmployeeResponse addEmployee(EmployeeRequest employeeRequest) {
-        Company company = companyRepository.findById(employeeRequest.getCompanyId()).get();
+        Company company = companyRepository.findById(employeeRequest.getCompanyId()).orElseThrow(CompanyNotFoundException::new);
         Employee employee = EmployeeMapper.employeeRequestToEmployee(employeeRequest, company);
         return EmployeeMapper.employeeToEmployeeResponse(employeeRepository.save(employee));
     }

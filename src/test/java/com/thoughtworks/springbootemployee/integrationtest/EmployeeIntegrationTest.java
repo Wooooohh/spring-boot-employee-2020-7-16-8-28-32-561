@@ -47,7 +47,6 @@ public class EmployeeIntegrationTest {
         .andExpect(jsonPath("content[0].name").value("jack"));
   }
 
-  // 创建员工的信息不合法
   @Test
   void should_return_created_employee_when_post_employee_given_employee() throws Exception {
     // given
@@ -85,7 +84,6 @@ public class EmployeeIntegrationTest {
         .andExpect(jsonPath("content[1]").doesNotExist());
   }
 
-  // id不存在
   @Test
   void should_return_ok_when_delete_employee_given_employee_id() throws Exception {
     // given
@@ -98,7 +96,6 @@ public class EmployeeIntegrationTest {
     mockMvc.perform(delete("/employees/" + addedEmployee.getId())).andExpect(status().isOk());
   }
 
-  // id不存在
   @Test
   void should_return_employee_when_get_employee_with_id_given_employee_id() throws Exception {
     // given
@@ -132,7 +129,6 @@ public class EmployeeIntegrationTest {
         .andExpect(jsonPath("[0].name").value("Jack"));
   }
 
-  // employee's id 不存在
   @Test
   void should_return_updated_employee_when_update_employee_given_employee() throws Exception {
     Company company = new Company("oocl");
@@ -158,8 +154,6 @@ public class EmployeeIntegrationTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("name").value("Edward"));
   }
-
-  //name: must not be blank
 
   @Test
   void should_return_name_must_not_be_blank_when_post_employee_given_employee_with_name_is_blank() throws Exception {
@@ -218,7 +212,19 @@ public class EmployeeIntegrationTest {
             .perform(
                     post("/employees").contentType(MediaType.APPLICATION_PROBLEM_JSON).content(employee))
             .andExpect(status().is4xxClientError())
-            .andExpect(jsonPath("[1]").value("name: must not be blank"))
-            .andExpect(jsonPath("[0]").value("age: must be less than or equal to 20"));
+            .andExpect(jsonPath("[0]").value("name: must not be blank"))
+            .andExpect(jsonPath("[1]").value("age: must be less than or equal to 20"));
   }
+
+  @Test
+  void should_return_404_and_employee_not_found_when_delete_employee_given_employee_id_is_not_exist() throws Exception {
+    // given
+    Company company = new Company("oocl");
+    companyRepository.save(company);
+    Employee employee = new Employee("Jack", 20, "male", company);
+    employeeRepository.save(employee);
+    // when
+    mockMvc.perform(delete("/employees/" + 999)).andExpect(status().isNotFound()).andExpect(jsonPath("[0]").value("Employee not found"));
+  }
+
 }
