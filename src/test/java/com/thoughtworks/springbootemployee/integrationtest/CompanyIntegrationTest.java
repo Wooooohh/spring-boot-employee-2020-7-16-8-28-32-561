@@ -98,46 +98,45 @@ public class CompanyIntegrationTest {
     Company company = new Company("oocl");
     companyRepository.save(company);
 
-    String companyJson =
-            " {\n"
-                    + "            \"name\": \"tw\"\n"
-                    + " }";
+    String companyJson = " {\n" + "            \"name\": \"tw\"\n" + " }";
     // when
     mockMvc
-            .perform(
-                    put("/companies/" + company.getCompanyId())
-                            .contentType(MediaType.APPLICATION_PROBLEM_JSON)
-                            .content(companyJson))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("name").value("tw"));
+        .perform(
+            put("/companies/" + company.getCompanyId())
+                .contentType(MediaType.APPLICATION_PROBLEM_JSON)
+                .content(companyJson))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("name").value("tw"));
   }
 
   @Test
   void should_return_added_company_when_add_company_given_company() throws Exception {
-    String companyJson =
-            " {\n"
-                    + "            \"name\": \"oocl\"\n"
-                    + " }";
+    String companyJson = " {\n" + "            \"name\": \"oocl\"\n" + " }";
     // when
     mockMvc
-            .perform(
-                    post("/companies")
-                            .contentType(MediaType.APPLICATION_PROBLEM_JSON)
-                            .content(companyJson))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("name").value("oocl"));
+        .perform(
+            post("/companies").contentType(MediaType.APPLICATION_PROBLEM_JSON).content(companyJson))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("name").value("oocl"));
   }
 
   @Test
   void should_return_ok_when_delete_company_given_company_id() throws Exception {
-
+    // given
     Company company = new Company("oocl");
     companyRepository.save(company);
     Company addedCompany = companyRepository.findByName("oocl");
     // when
+    mockMvc.perform(delete("/companies/" + addedCompany.getCompanyId())).andExpect(status().isOk());
+  }
+
+  @Test
+  void should_return_404_and_company_not_found_when_delete_company_given_company_id_is_not_found()
+      throws Exception {
+
     mockMvc
-            .perform(
-                    delete("/companies/"+addedCompany.getCompanyId()))
-            .andExpect(status().isOk());
+        .perform(delete("/companies/" + 999))
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("[0]").value("Company not found"));
   }
 }

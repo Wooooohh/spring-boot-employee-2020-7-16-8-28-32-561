@@ -218,13 +218,6 @@ public class EmployeeIntegrationTest {
 
   @Test
   void should_return_404_and_employee_not_found_when_delete_employee_given_employee_id_is_not_exist() throws Exception {
-    // given
-    Company company = new Company("oocl");
-    companyRepository.save(company);
-    Employee employee = new Employee("Jack", 20, "male", company);
-    employeeRepository.save(employee);
-    // when
-
     mockMvc.perform(delete("/employees/" + 999)).andExpect(status().isNotFound()).andExpect(jsonPath("[0]").value("Employee not found"));
   }
 

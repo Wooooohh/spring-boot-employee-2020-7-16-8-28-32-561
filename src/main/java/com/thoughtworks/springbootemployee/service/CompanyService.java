@@ -3,6 +3,7 @@ package com.thoughtworks.springbootemployee.service;
 import com.thoughtworks.springbootemployee.dto.CompanyRequest;
 import com.thoughtworks.springbootemployee.entity.Company;
 import com.thoughtworks.springbootemployee.entity.Employee;
+import com.thoughtworks.springbootemployee.exception.CompanyNotFoundException;
 import com.thoughtworks.springbootemployee.mapper.CompanyMapper;
 import com.thoughtworks.springbootemployee.mapper.EmployeeMapper;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
@@ -32,13 +33,14 @@ public class CompanyService {
     }
 
     public Company updateCompany(int companyId, CompanyRequest companyRequest) {
-        Company company = companyRepository.findById(companyId).get();
+        Company company = companyRepository.findById(companyId).orElseThrow(CompanyNotFoundException::new);
         Company company1 = CompanyMapper.companyRequestToCompany(company.getCompanyId(), companyRequest, company);
         return companyRepository.save(company1);
     }
 
     public void deleteCompany(int companyId) {
-        companyRepository.deleteById(companyId);
+        Company company = companyRepository.findById(companyId).orElseThrow(CompanyNotFoundException::new);
+        companyRepository.deleteById(company.getCompanyId());
     }
 
     public Company getCompanyByCompanyId(int companyId) {
