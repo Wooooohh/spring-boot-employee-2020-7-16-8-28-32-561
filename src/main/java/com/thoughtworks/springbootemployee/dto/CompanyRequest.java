@@ -1,15 +1,11 @@
 package com.thoughtworks.springbootemployee.dto;
 
+import javax.validation.constraints.NotBlank;
+
 public class CompanyRequest {
 
+    @NotBlank
     String name;
-
-    public CompanyRequest(String name) {
-        this.name = name;
-    }
-    public CompanyRequest(){
-
-    }
 
     public String getName() {
         return name;

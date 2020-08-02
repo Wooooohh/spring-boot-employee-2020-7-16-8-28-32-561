@@ -139,4 +139,19 @@ public class CompanyIntegrationTest {
         .andExpect(status().isNotFound())
         .andExpect(jsonPath("[0]").value("Company not found"));
   }
+
+  @Test
+  void should_return_name_must_not_be_blank_when_update_company_given_company_with_name_is_blank()
+      throws Exception {
+    // given
+    Company company = new Company("oocl");
+    companyRepository.save(company);
+    String companyJson = " {\n" + "            \"name\": \"\"\n" + " }";
+    // when
+    mockMvc
+        .perform(
+            post("/employees").contentType(MediaType.APPLICATION_PROBLEM_JSON).content(companyJson))
+        .andExpect(status().is4xxClientError())
+        .andExpect(jsonPath("[0]").value("name: must not be blank"));
+  }
 }
