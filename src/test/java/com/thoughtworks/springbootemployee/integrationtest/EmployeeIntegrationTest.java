@@ -224,6 +224,7 @@ public class EmployeeIntegrationTest {
     Employee employee = new Employee("Jack", 20, "male", company);
     employeeRepository.save(employee);
     // when
+
     mockMvc.perform(delete("/employees/" + 999)).andExpect(status().isNotFound()).andExpect(jsonPath("[0]").value("Employee not found"));
   }
 
